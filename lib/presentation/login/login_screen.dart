@@ -76,7 +76,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           child: Form(
                             child: Column(children: [
                               TextFormField(
-                                  controller: controller.passwordController,
+                                  controller: controller.userController,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                       //label: Text('Nombre Completo'),
@@ -100,7 +100,7 @@ class _LoginscreenState extends State<Loginscreen> {
                                   }),
                               SizedBox(height: 10),
                               TextFormField(
-                                controller: controller.userController,
+                                controller: controller.passwordController,
                                 decoration: InputDecoration(
                                   suffixIcon: _passwordVisible
                                       ? IconButton(

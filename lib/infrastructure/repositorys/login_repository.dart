@@ -8,15 +8,19 @@ import 'package:http/http.dart' as http;
 class LoginRepository extends GetConnect {
   Future<LoginModel> login(String user, String password) async {
     try {
+      print(user);
+      print(password);
       String url = '${Enviroment.apiUrl}/login/validar_sesion';
       final response = await http.post(
         Uri.parse(url),
         body: {
-          'app': "true",
+          'app': 'true',
           'usuario_nickname': user,
           'usuario_contrasenha': password,
         },
       );
+
+      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
@@ -31,6 +35,7 @@ class LoginRepository extends GetConnect {
 
       return loginModel;
     } catch (error) {
+      print(error);
       if (error is SocketException) {
         Get.snackbar('Problemas de conexión',
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
@@ -54,9 +59,10 @@ class LoginRepository extends GetConnect {
           'password_admin': data.password,
           'nombre_negocio': data.businessName ?? '',
           'ubicacion_negocio': data.businessAddress ?? '',
-          'descripcion_negocio': data.businessInfo,
+          'descripcion_negocio': data.businessInfo ?? '',
         },
       );
+      print('respuesta api ${response.body}');
 
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
