@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'signup_controller.dart';
 
 class Registro_Usuario extends StatelessWidget {
-  const Registro_Usuario({super.key});
+  Registro_Usuario({super.key});
+  final SignUpController controller = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +73,14 @@ class Registro_Usuario extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     //Text Nombre Completo
-                                    const TextField(
-                                      //controller: txtNombre_Usuario,
+                                    TextField(
+                                      controller:
+                                          controller.firstnameController,
                                       decoration: InputDecoration(
                                         //label: Text('Nombre Completo'),
                                         labelText: 'Nombres',
-                                        hintText: 'Ingrese sus nombres completo',
+                                        hintText:
+                                            'Ingrese sus nombres completo',
                                         icon: Icon(
                                           Icons.account_circle,
                                           size: 40,
@@ -92,12 +98,13 @@ class Registro_Usuario extends StatelessWidget {
                                       enableSuggestions: true,
                                     ),
 
-                                    const TextField(
-                                      //controller: txtNombre_Usuario,
+                                    TextField(
+                                      controller: controller.surnameController,
                                       decoration: InputDecoration(
                                         //label: Text('Nombre Completo'),
                                         labelText: 'Apellidos',
-                                        hintText: 'Ingrese sus apellidos completos',
+                                        hintText:
+                                            'Ingrese sus apellidos completos',
                                         icon: Icon(
                                           Icons.account_circle,
                                           size: 40,
@@ -114,8 +121,6 @@ class Registro_Usuario extends StatelessWidget {
                                       autocorrect: true,
                                       enableSuggestions: true,
                                     ),
-
-
 
                                     //Text Numero DNI Completo
                                     TextFormField(
@@ -123,7 +128,8 @@ class Registro_Usuario extends StatelessWidget {
                                           //Obtener_Usuario_RENIEC(value.toString());
                                         },
                                         keyboardType: TextInputType.number,
-                                        //controller: txtDni_Usuario,
+                                        controller:
+                                            controller.documentController,
                                         decoration: const InputDecoration(
                                             //label: Text('Nombre Completo'),
                                             labelText: 'DNI',
@@ -146,11 +152,9 @@ class Registro_Usuario extends StatelessWidget {
                                           return null;
                                         }),
 
-                                    
-
                                     //Text Clave Completo
-                                    const TextField(
-                                      //controller: txtClave_Usuario,
+                                    TextField(
+                                      controller: controller.passwordController,
                                       decoration: InputDecoration(
                                         labelText: 'Password',
                                         hintText: 'Ingrese su contraseña',
@@ -173,8 +177,9 @@ class Registro_Usuario extends StatelessWidget {
 
                                     //Text Confirmacion Clave Completo
                                     const SizedBox(height: 10),
-                                    const TextField(
-                                      //controller: txtConfirmar_Clave,
+                                    TextField(
+                                      controller:
+                                          controller.password2Controller,
                                       decoration: InputDecoration(
                                         //label: Text('Nombre Completo'),
                                         labelText: 'Confirmacion de Password',
@@ -245,7 +250,7 @@ class Registro_Usuario extends StatelessWidget {
                                     //Boton Guardar Registro
                                     ElevatedButton(
                                       onPressed: () {
-                                        //Registrar_Usuario();
+                                        controller.signUp(context);
                                       },
                                       style: ElevatedButton.styleFrom(
                                           minimumSize: const Size(300, 40),
@@ -262,8 +267,6 @@ class Registro_Usuario extends StatelessWidget {
                                     ),
 
                                     const SizedBox(height: 10),
-
-                                    
                                   ],
                                 ),
                               ),

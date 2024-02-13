@@ -17,7 +17,7 @@ class InicioSesion extends StatelessWidget {
         '/': (context) => const Loginscreen(),
         '/MenuAdmin': (context) => const PrincipalAdmin(),
         '/MenuCliente': (context) => const MenuCliente(),
-        '/Registro_Usuario': (context) => const Registro_Usuario(),
+        '/Registro_Usuario': (context) => Registro_Usuario(),
       },
     );
   }
