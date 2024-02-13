@@ -1,4 +1,3 @@
-
 import 'package:app_bicirrenta/infrastructure/models/login_model.dart';
 import 'package:app_bicirrenta/infrastructure/repositorys/login_repository.dart';
 import 'package:flutter/material.dart';
@@ -6,22 +5,26 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
+import '../../infrastructure/models/user_model.dart';
+
 class LoginController extends GetxController {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void goToRegistrarCliente()
-  {
+  void goToRegistrarCliente() {
     Get.toNamed('/registrarCliente');
   }
 
-  void goToRegistrarNegocio()
-  {
+  void goToRegistrarNegocio() {
     Get.toNamed('/registrarNegocio');
   }
 
   void goToInicioScreen() {
     Get.offNamedUntil('/menuAdmin', (route) => false);
+  }
+
+  void goToInicioCliente() {
+    Get.offNamedUntil('/inicioCliente', (route) => false);
   }
 
   LoginRepository repository = LoginRepository();
@@ -41,14 +44,21 @@ class LoginController extends GetxController {
           valueFontSize: 5,
           msgFontSize: 19,
           barrierColor: Color.fromRGBO(124, 136, 207, 0.514));
-          
+
       LoginModel loginmodel = await repository.login(user, password);
       progressDialog.close();
 
-      if (loginmodel.code == 1) {        
+      if (loginmodel.code == 1) {
         //Saving user login session
         GetStorage().write('user', loginmodel.data);
-        goToInicioScreen();
+        UserModel userSession =
+            UserModel.fromJson(GetStorage().read("user") ?? {});
+
+        if (userSession.idRol == '4') {
+          goToInicioCliente();
+        } else {
+          goToInicioScreen();
+        }
       } else {
         Get.snackbar('Ocurrió un error', loginmodel.message ?? '');
       }

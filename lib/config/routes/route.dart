@@ -5,10 +5,13 @@ import 'package:app_bicirrenta/presentation/login/login_screen.dart';
 import 'package:app_bicirrenta/presentation/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
+import '../../Cliente/Cliente.dart';
+
 final appRoutes = [
   GetPage(name: "/login", page: () => Loginscreen()),
   GetPage(name: "/splash", page: () => SplashScreen()),
   GetPage(name: "/menuAdmin", page: () => PrincipalAdmin()),
   GetPage(name: "/registrarCliente", page: () => Registro_Usuario()),
   GetPage(name: "/registrarNegocio", page: () => RegistroEmpresa()),
+  GetPage(name: "/inicioCliente", page: () => MenuCliente()),
 ];

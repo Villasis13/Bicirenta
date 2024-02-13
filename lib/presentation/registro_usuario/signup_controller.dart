@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+import '../../infrastructure/models/user_model.dart';
 import '../../infrastructure/repositorys/login_repository.dart';
 
 class SignUpController extends GetxController {
@@ -21,6 +22,10 @@ class SignUpController extends GetxController {
 
   void goToInicioScreen() {
     Get.offNamedUntil('/menuAdmin', (route) => false);
+  }
+
+  void goToInicioCliente() {
+    Get.offNamedUntil('/inicioCliente', (route) => false);
   }
 
   LoginRepository repository = LoginRepository();
@@ -58,7 +63,14 @@ class SignUpController extends GetxController {
       if (loginmodel.code == 1) {
         //Saving user login session
         GetStorage().write('user', loginmodel.data);
-        goToInicioScreen();
+        UserModel userSession =
+            UserModel.fromJson(GetStorage().read("user") ?? {});
+
+        if (userSession.idRol == '4') {
+          goToInicioCliente();
+        } else {
+          goToInicioScreen();
+        }
       } else {
         Get.snackbar('Ocurrió un error', loginmodel.message ?? '');
       }
@@ -104,7 +116,14 @@ class SignUpController extends GetxController {
       if (loginmodel.code == 1) {
         //Saving user login session
         GetStorage().write('user', loginmodel.data);
-        goToInicioScreen();
+        UserModel userSession =
+            UserModel.fromJson(GetStorage().read("user") ?? {});
+
+        if (userSession.idRol == '4') {
+          goToInicioCliente();
+        } else {
+          goToInicioScreen();
+        }
       } else {
         Get.snackbar('Ocurrió un error', loginmodel.message ?? '');
       }

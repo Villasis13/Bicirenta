@@ -12,13 +12,8 @@ class BarraLateral extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => NavBar(),
-        '/InicioSesion': (context) => const InicioSesion(),
-      },
+    return Scaffold(
+      body: Drawer(),
     );
   }
 }
@@ -27,90 +22,88 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            child: UserAccountsDrawerHeader(
-              accountName: Text(
-                'Roger Chavez Medina',
-                style: TextStyle(fontSize: 18),
-              ),
-              accountEmail: Text('rogerchavez10@gmail.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: Image.asset('assets/images/avatar7.png').image,
-              ),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(72, 192, 180, 1.0),
-              ),
+      child: ListView(padding: EdgeInsets.zero, children: [
+        Container(
+          child: UserAccountsDrawerHeader(
+            accountName: Text(
+              'Roger Chavez Medina',
+              style: TextStyle(fontSize: 18),
+            ),
+            accountEmail: Text('rogerchavez10@gmail.com'),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: Image.asset('assets/images/avatar7.png').image,
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(72, 192, 180, 1.0),
             ),
           ),
+        ),
 
-          ListTile(
-            leading: Icon(
-              Icons.business,
-              color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
-            ),
-            title: Text(
-              'Mi Negocio',
-              style: TextStyle(
-                  color: Color.fromRGBO(78, 193, 176, 1.0),
-                  fontSize: 22 // Color del texto
-                  ),
-            ),
-            onTap: () async {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => ListadoNegocios()),
-                (route) => false,
-              );
-            },
+        ListTile(
+          leading: Icon(
+            Icons.business,
+            color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
           ),
-
-          //Divider(),
-          ListTile(
-            leading: Icon(
-              Icons.directions_bike,
-              color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
-            ),
-            title: Text(
-              'Mis Bicicletas',
-              style: TextStyle(
-                  color: Color.fromRGBO(78, 193, 176, 1.0),
-                  fontSize: 22 // Color del texto
-                  ),
-            ),
-            onTap: () async {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => ListadoBicicletas()),
-                (route) => false,
-              );
-            },
+          title: Text(
+            'Mi Negocio',
+            style: TextStyle(
+                color: Color.fromRGBO(78, 193, 176, 1.0),
+                fontSize: 22 // Color del texto
+                ),
           ),
+          onTap: () async {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => ListadoNegocios()),
+              (route) => false,
+            );
+          },
+        ),
 
-          ListTile(
-            leading: Icon(
-              Icons.track_changes,
-              color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
-            ),
-            title: Text(
-              'Tráfico',
-              style: TextStyle(
-                  color: Color.fromRGBO(78, 193, 176, 1.0),
-                  fontSize: 22 // Color del texto
-                  ),
-            ),
-            onTap: () async {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => Solicitudes()),
-                (route) => false,
-              );
-            },
+        //Divider(),
+        ListTile(
+          leading: Icon(
+            Icons.directions_bike,
+            color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
           ),
+          title: Text(
+            'Mis Bicicletas',
+            style: TextStyle(
+                color: Color.fromRGBO(78, 193, 176, 1.0),
+                fontSize: 22 // Color del texto
+                ),
+          ),
+          onTap: () async {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => ListadoBicicletas()),
+              (route) => false,
+            );
+          },
+        ),
 
-          ListTile(
+        ListTile(
+          leading: Icon(
+            Icons.track_changes,
+            color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
+          ),
+          title: Text(
+            'Tráfico',
+            style: TextStyle(
+                color: Color.fromRGBO(78, 193, 176, 1.0),
+                fontSize: 22 // Color del texto
+                ),
+          ),
+          onTap: () async {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Solicitudes()),
+              (route) => false,
+            );
+          },
+        ),
+
+        ListTile(
             leading: Icon(
               Icons.exit_to_app,
               color: Color.fromRGBO(78, 193, 176, 1.0),
@@ -129,9 +122,8 @@ class NavBar extends StatelessWidget {
                     title: Text('BICI RENTA'),
                     content: Text('¿Estás seguro que deseas cerrar sesión?'),
                     actions: [
-
                       TextButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.pop(context);
                         },
                         style: TextButton.styleFrom(
@@ -140,10 +132,10 @@ class NavBar extends StatelessWidget {
                         ),
                         child: Text('No'),
                       ),
-
                       TextButton(
                         onPressed: () {
-                          LogOutController controller = Get.put(LogOutController());
+                          LogOutController controller =
+                              Get.put(LogOutController());
                           controller.logout();
                         },
                         style: TextButton.styleFrom(
@@ -156,9 +148,8 @@ class NavBar extends StatelessWidget {
                   );
                 },
               );
-            }
-        ) ]
-      ),
+            })
+      ]),
     );
   }
 }

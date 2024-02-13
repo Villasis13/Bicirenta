@@ -11,18 +11,25 @@ class SplashController extends GetxController {
     Get.offNamedUntil('/menuAdmin', (route) => false);
   }
 
+  void goToInicioCliente() {
+    Get.offNamedUntil('/inicioCliente', (route) => false);
+  }
+
   void getInitialScreen() {
     Future.delayed(
         const Duration(
           seconds: 2,
         ), () {
-          goLogin();
+      //goLogin();
       UserModel userSession =
           UserModel.fromJson(GetStorage().read("user") ?? {});
 
       if (userSession.idUsuario != null) {
-        //Delivery
-        goToInicio();
+        if (userSession.idRol == '4') {
+          goToInicioCliente();
+        } else {
+          goToInicio();
+        }
       } else {
         goLogin();
       }
