@@ -25,6 +25,7 @@ class BusinessScreen extends StatelessWidget {
               children: snapshot.data!
                   .map((business) => BusinessWidget(
                         business: business,
+                        controllerBusiness: controllerBusiness,
                       ))
                   .toList(),
             );
@@ -56,8 +57,10 @@ class BusinessScreen extends StatelessWidget {
 }
 
 class BusinessWidget extends StatelessWidget {
-  BusinessWidget({super.key, required this.business});
+  BusinessWidget(
+      {super.key, required this.business, required this.controllerBusiness});
   final BusinessModel business;
+  final ClientesController controllerBusiness;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +143,7 @@ class BusinessWidget extends StatelessWidget {
                       itemBuilder: (_, index) {
                         return BicyWidget(
                           bicy: business.bicys![index],
+                          controllerBusiness: controllerBusiness,
                         );
                       }),
                 )
@@ -151,13 +155,16 @@ class BusinessWidget extends StatelessWidget {
 }
 
 class BicyWidget extends StatelessWidget {
-  BicyWidget({super.key, required this.bicy});
+  BicyWidget({super.key, required this.bicy, required this.controllerBusiness});
   final BicyModel bicy;
+  final ClientesController controllerBusiness;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        if (bicy.statusBicy == '1') controllerBusiness.goToDetailBicy(bicy);
+      },
       child: Container(
         width: ScreenUtil().setWidth(160),
         height: ScreenUtil().setHeight(220),
