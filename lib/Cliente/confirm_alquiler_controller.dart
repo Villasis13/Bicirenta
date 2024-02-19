@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-import '../infrastructure/models/login_model.dart';
 import '../infrastructure/repositorys/business_repository.dart';
 
 class AlquilerController extends GetxController {

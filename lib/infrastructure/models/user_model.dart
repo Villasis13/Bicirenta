@@ -1,4 +1,3 @@
-
 class UserModel {
   String? idUsuario;
   String? idPersona;
@@ -11,6 +10,7 @@ class UserModel {
   String? idRol;
   String? rolNombre;
   String? token;
+  String? idBusiness;
 
   UserModel({
     this.idUsuario,
@@ -24,9 +24,11 @@ class UserModel {
     this.idRol,
     this.rolNombre,
     this.token,
+    this.idBusiness,
   });
 
-  static List<UserModel> fronjsonList(List<dynamic> json)=>json.map((i) => UserModel.fromJson(i)).toList();
+  static List<UserModel> fronjsonList(List<dynamic> json) =>
+      json.map((i) => UserModel.fromJson(i)).toList();
 
   Map<String, dynamic> toJson() => {
         "c_u": idUsuario,
@@ -40,6 +42,7 @@ class UserModel {
         "ru": idRol,
         "rn": rolNombre,
         "tn": token,
+        "i_n": idBusiness,
       };
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -54,5 +57,6 @@ class UserModel {
         idRol: json["ru"],
         rolNombre: json["rn"],
         token: json["tn"],
+        idBusiness: json["i_n"],
       );
 }
