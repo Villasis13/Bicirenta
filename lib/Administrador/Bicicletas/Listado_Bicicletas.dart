@@ -1,6 +1,5 @@
 //
 import 'package:app_bicirrenta/presentation/barra%20lateral/BarraLateral.dart';
-import 'package:app_bicirrenta/Administrador/Bicicletas/Registro_Bicicletas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

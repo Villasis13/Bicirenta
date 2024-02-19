@@ -1,6 +1,5 @@
 //
 import 'package:app_bicirrenta/presentation/barra%20lateral/BarraLateral.dart';
-import 'package:app_bicirrenta/Administrador/Empresa/Registro_Empresa.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
