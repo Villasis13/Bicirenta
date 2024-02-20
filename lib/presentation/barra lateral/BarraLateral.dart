@@ -1,5 +1,4 @@
 import 'package:app_bicirrenta/Administrador/Bicicletas/Listado_Bicicletas.dart';
-import 'package:app_bicirrenta/Administrador/Empresa/Listado_Empresa.dart';
 import 'package:app_bicirrenta/Administrador/Sulicitudes/Solicitudes_Bicicletas.dart';
 import 'package:app_bicirrenta/presentation/logout/logout.dart';
 import 'package:flutter/material.dart';
@@ -38,26 +37,26 @@ class NavBar extends StatelessWidget {
           ),
         ),
 
-        ListTile(
-          leading: Icon(
-            Icons.business,
-            color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
-          ),
-          title: Text(
-            'Mi Negocio',
-            style: TextStyle(
-                color: Color.fromRGBO(78, 193, 176, 1.0),
-                fontSize: 22 // Color del texto
-                ),
-          ),
-          onTap: () async {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => ListadoNegocios()),
-              (route) => false,
-            );
-          },
-        ),
+        // ListTile(
+        //   leading: Icon(
+        //     Icons.business,
+        //     color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
+        //   ),
+        //   title: Text(
+        //     'Mi Negocio',
+        //     style: TextStyle(
+        //         color: Color.fromRGBO(78, 193, 176, 1.0),
+        //         fontSize: 22 // Color del texto
+        //         ),
+        //   ),
+        //   onTap: () async {
+        //     Navigator.pushAndRemoveUntil(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => ListadoNegocios()),
+        //       (route) => false,
+        //     );
+        //   },
+        // ),
 
         //Divider(),
         ListTile(

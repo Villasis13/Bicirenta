@@ -1,3 +1,4 @@
+import 'package:app_bicirrenta/Administrador/Bicicletas/list_bicy_controller.dart';
 import 'package:app_bicirrenta/infrastructure/models/tipe_bicy_model.dart';
 import 'package:app_bicirrenta/infrastructure/repositorys/admin_repository.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,8 @@ class AdminBicyController extends GetxController {
     progressDialog.close();
 
     if (resultado == 1) {
+      ListBicyController reload = Get.find();
+      reload.update();
       Get.snackbar('Acción realizada',
           'Información de la bicicleta fue guardado correctamente');
       Navigator.pop(context);
