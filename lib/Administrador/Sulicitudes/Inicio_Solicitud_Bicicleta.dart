@@ -2,6 +2,8 @@ import 'package:app_bicirrenta/Administrador/MenuAdmin.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../presentation/barra lateral/BarraLateral.dart';
+
 class InicioSolicitudBicicleta extends StatefulWidget {
   const InicioSolicitudBicicleta({Key? key}) : super(key: key);
 
@@ -11,61 +13,32 @@ class InicioSolicitudBicicleta extends StatefulWidget {
 }
 
 class _InicioSolicitudBicicletaState extends State<InicioSolicitudBicicleta> {
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawer: NavBar(),
         appBar: AppBar(
-          flexibleSpace: Container(
-            margin: EdgeInsets.only(top: 46, right: 8),
-            height: 300,
-            alignment: Alignment.centerRight,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrincipalAdmin()),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    Container(
-                      margin: EdgeInsets.only(left: 0),
-                      child: Text(
-                        "TRÁFICOS",
-                        style: const TextStyle(
-                            fontSize: 20, color: Color(0xFFFFFFFF)),
-                      ),
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  'assets/images/Logo_nombre.jpg',
-                  height: 40,
-                ),
-              ],
-            ),
+          title: Text(
+            "TRÁFICO",
+            style: const TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)),
           ),
+          actions: [
+            InkWell(
+              child: Container(
+                margin: EdgeInsets.only(right: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    'assets/images/Logo_nombre.jpg',
+                    height: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
           elevation: 1,
-          centerTitle: true,
           toolbarHeight: 60,
           backgroundColor: Color(0xFF4FC1B0),
           bottom: const TabBar(
@@ -80,61 +53,6 @@ class _InicioSolicitudBicicletaState extends State<InicioSolicitudBicicleta> {
             InicioSolicitudes(),
             InicioAlquileres(),
           ],
-        ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(width: 1.0, color: Colors.green),
-            ),
-          ),
-          child: BottomNavigationBar(
-            selectedFontSize: 4,
-            backgroundColor: Color.fromARGB(255, 252, 255, 252),
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_sharp,
-                    color: _selectedIndex == 0
-                        ? Color(0xFF34B086)
-                        : Color.fromARGB(255, 125, 125, 133),
-                    size: 50),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person,
-                    color: _selectedIndex == 1
-                        ? Color(0xFF34B086)
-                        : Color.fromARGB(255, 125, 125, 133),
-                    size: 50),
-                label: '',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Color(0xFF34B086),
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            unselectedItemColor: Colors.white,
-            onTap: (int index) {
-              setState(() {
-                _selectedIndex = index;
-                if (_selectedIndex == 0) {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => PrincipalAdmin()),
-                    (route) => false,
-                  );
-                } else if (_selectedIndex == 1) {
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Registro_Usuario()),
-                  //   (route) => false,
-                  // );
-                }
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            elevation: 10,
-            selectedIconTheme: IconThemeData(size: 40),
-            unselectedIconTheme: IconThemeData(size: 40),
-          ),
         ),
       ),
     );

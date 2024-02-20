@@ -55,13 +55,15 @@ class AdminRepository extends GetConnect {
           UserModel.fromJson(GetStorage().read('user') ?? {});
 
       print(userSession.idBusiness);
+      print(idtype);
+      print(price);
 
       final response = await http.post(
         Uri.parse(url),
         body: {
           'app': 'true',
-          'id_persona': userSession.idBusiness,
-          'id_tipo_bicicleta': idtype,
+          'id_negocio': userSession.idBusiness,
+          'id_tipobicicleta': idtype,
           'descripcion_bicicleta': info,
           'preciohora_bicicleta': price,
         },
@@ -78,6 +80,7 @@ class AdminRepository extends GetConnect {
       }
 
       int resp = jsonDecode(response.body);
+      print(resp);
 
       return resp;
     } catch (error) {
