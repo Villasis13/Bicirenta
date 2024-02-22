@@ -28,7 +28,6 @@ class BusinessScreen extends StatelessWidget {
                         .map((business) => BusinessWidget(
                               business: business,
                               controllerBusiness: controllerBusiness,
-                              origen: 'Del buscador',
                             ))
                         .toList(),
                   );
@@ -54,7 +53,6 @@ class BusinessScreen extends StatelessWidget {
                         .map((business) => BusinessWidget(
                               business: business,
                               controllerBusiness: controllerBusiness,
-                              origen: 'Del Ws',
                             ))
                         .toList(),
                   );
@@ -88,13 +86,12 @@ class BusinessScreen extends StatelessWidget {
 }
 
 class BusinessWidget extends StatelessWidget {
-  BusinessWidget(
-      {super.key,
-      required this.business,
-      required this.controllerBusiness,
-      required this.origen});
+  BusinessWidget({
+    super.key,
+    required this.business,
+    required this.controllerBusiness,
+  });
   final BusinessModel business;
-  final String origen;
   final ClientesController controllerBusiness;
 
   @override
@@ -131,7 +128,7 @@ class BusinessWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Bicicleta de ($origen) ',
+              Text('Bicicleta de ',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(width: 5), // Espacio entre los textos
