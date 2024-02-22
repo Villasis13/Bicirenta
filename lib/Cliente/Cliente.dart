@@ -1,4 +1,5 @@
 import 'package:app_bicirrenta/Cliente/business_screen.dart';
+import 'package:app_bicirrenta/Cliente/clientes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,8 @@ class MenuCliente extends StatefulWidget {
 
 class ClienteState extends State<MenuCliente> {
   int _selectedIndex = 0;
-  TextEditingController _searchController = TextEditingController();
+
+  final ClientesController controllerBusiness = Get.put(ClientesController());
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,10 @@ class ClienteState extends State<MenuCliente> {
               height: 40,
               width: MediaQuery.of(context).size.width - 30,
               child: TextField(
-                controller: _searchController,
+                controller: controllerBusiness.searchController,
+                onChanged: (value) {
+                  controllerBusiness.searchBuisiness();
+                },
                 decoration: InputDecoration(
                   hintText: 'Buscar...',
                   hintStyle: TextStyle(
@@ -99,7 +104,9 @@ class ClienteState extends State<MenuCliente> {
               ),
             ),
             SizedBox(height: 20),
-            BusinessScreen(),
+            BusinessScreen(
+              controllerBusiness: controllerBusiness,
+            ),
             SizedBox(height: 20),
           ],
         ),

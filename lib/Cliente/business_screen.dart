@@ -7,59 +7,94 @@ import 'package:get/get.dart';
 import '../infrastructure/models/business_model.dart';
 
 class BusinessScreen extends StatelessWidget {
-  final ClientesController controllerBusiness = Get.put(ClientesController());
+  BusinessScreen({super.key, required this.controllerBusiness});
+  final ClientesController controllerBusiness;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: controllerBusiness.getBusiness(),
-        builder: (context, AsyncSnapshot<List<BusinessModel>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            if (snapshot.data!.isEmpty) {
-              return Center(
-                child: Text('No existen negocios disponibles'),
-              );
-            }
-            return Column(
-              children: snapshot.data!
-                  .map((business) => BusinessWidget(
-                        business: business,
-                        controllerBusiness: controllerBusiness,
-                      ))
-                  .toList(),
+    return GetBuilder<ClientesController>(builder: (_) {
+      return (controllerBusiness.isSearch)
+          ? FutureBuilder(
+              future: controllerBusiness.getSearchBusiness(),
+              builder: (context, AsyncSnapshot<List<BusinessModel>> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text('No existen negocios disponibles'),
+                    );
+                  }
+                  return Column(
+                    children: snapshot.data!
+                        .map((business) => BusinessWidget(
+                              business: business,
+                              controllerBusiness: controllerBusiness,
+                              origen: 'Del buscador',
+                            ))
+                        .toList(),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            )
+          : FutureBuilder(
+              future: controllerBusiness.getBusiness(),
+              builder: (context, AsyncSnapshot<List<BusinessModel>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text('No existen negocios disponibles'),
+                    );
+                  }
+                  return Column(
+                    children: snapshot.data!
+                        .map((business) => BusinessWidget(
+                              business: business,
+                              controllerBusiness: controllerBusiness,
+                              origen: 'Del Ws',
+                            ))
+                        .toList(),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasError) {
+                  return Column(
+                    children: [
+                      const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                        size: 100,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Text(
+                          'Ocurrió un error',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             );
-          } else if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasError) {
-            return Column(
-              children: [
-                const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                  size: 100,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Text(
-                    'Ocurrió un error',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                )
-              ],
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+    });
   }
 }
 
 class BusinessWidget extends StatelessWidget {
   BusinessWidget(
-      {super.key, required this.business, required this.controllerBusiness});
+      {super.key,
+      required this.business,
+      required this.controllerBusiness,
+      required this.origen});
   final BusinessModel business;
+  final String origen;
   final ClientesController controllerBusiness;
 
   @override
@@ -96,7 +131,7 @@ class BusinessWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Bicicleta de',
+              Text('Bicicleta de ($origen) ',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(width: 5), // Espacio entre los textos

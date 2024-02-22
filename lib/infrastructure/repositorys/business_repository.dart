@@ -21,7 +21,6 @@ class BusinessRepository extends GetConnect {
         },
       );
 
-      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
