@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_bicirrenta/infrastructure/models/alquiler_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/bicy_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/solicitudes_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/tipe_bicy_model.dart';
@@ -22,7 +23,6 @@ class AdminRepository extends GetConnect {
         },
       );
 
-      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
@@ -63,7 +63,6 @@ class AdminRepository extends GetConnect {
         },
       );
 
-      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
@@ -76,7 +75,6 @@ class AdminRepository extends GetConnect {
       }
 
       var decodeData = jsonDecode(response.body);
-      print(decodeData);
 
       List<BicyModel> bicy = BicyModel.fromJsonList(decodeData);
       return bicy;
@@ -148,7 +146,6 @@ class AdminRepository extends GetConnect {
         },
       );
 
-      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
@@ -161,7 +158,6 @@ class AdminRepository extends GetConnect {
       }
 
       var decodeData = jsonDecode(response.body);
-      print(decodeData);
 
       List<SolicitudesModel> bicy = SolicitudesModel.fromJsonList(decodeData);
       return bicy;
@@ -193,7 +189,6 @@ class AdminRepository extends GetConnect {
         },
       );
 
-      print('respuesta api ${response.body}');
       if (response.statusCode != 200) {
         Get.snackbar('Problemas de conexión',
             'Revise su conexión a Internet, e inténtelo nuevamente');
@@ -206,7 +201,6 @@ class AdminRepository extends GetConnect {
       }
 
       var decodeData = jsonDecode(response.body);
-      print(decodeData);
 
       return decodeData;
     } catch (error) {
@@ -218,6 +212,48 @@ class AdminRepository extends GetConnect {
       }
       Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
       return 2;
+    }
+  }
+
+  Future<List<AlquilerModel>> getAlquileres() async {
+    try {
+      String url = '${Enviroment.apiUrl}/Radministrador/vista_alquileres';
+      UserModel userSession =
+          UserModel.fromJson(GetStorage().read('user') ?? {});
+      print(userSession.idPersona);
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'app': 'true',
+          'id_negocio': userSession.idBusiness,
+        },
+      );
+
+      print('respuesta api ${response.body}');
+      if (response.statusCode != 200) {
+        Get.snackbar('Problemas de conexión',
+            'Revise su conexión a Internet, e inténtelo nuevamente');
+        return [];
+      }
+
+      if (response.body.isEmpty) {
+        Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+        return [];
+      }
+
+      var decodeData = jsonDecode(response.body);
+
+      List<AlquilerModel> bicy = AlquilerModel.fromJsonList(decodeData);
+      return bicy;
+    } catch (error) {
+      print(error);
+      if (error is SocketException) {
+        Get.snackbar('Problemas de conexión',
+            'Asegúrese que el dispositivo cuente con una conexión a Internet');
+        return [];
+      }
+      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      return [];
     }
   }
 }

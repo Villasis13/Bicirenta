@@ -1,3 +1,4 @@
+import 'package:app_bicirrenta/infrastructure/models/alquiler_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/solicitudes_model.dart';
 import 'package:app_bicirrenta/infrastructure/repositorys/admin_repository.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,10 @@ class SolicitudesController extends GetxController {
 
   Future<List<SolicitudesModel>> getSolicitudes() async {
     return await repository.getSolicitudes();
+  }
+
+  Future<List<AlquilerModel>> getAlquileres() async {
+    return await repository.getAlquileres();
   }
 
   changeStatusSoli(
