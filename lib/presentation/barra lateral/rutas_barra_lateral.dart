@@ -15,7 +15,7 @@ class InicioSesion extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Loginscreen(),
-        '/MenuAdmin': (context) => const PrincipalAdmin(),
+        '/MenuAdmin': (context) => PrincipalAdmin(),
         '/MenuCliente': (context) => const MenuCliente(),
         '/Registro_Usuario': (context) => Registro_Usuario(),
       },

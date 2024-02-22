@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../Administrador/MenuAdmin.dart';
 import '../../Administrador/Sulicitudes/Inicio_Solicitud_Bicicleta.dart';
 import '../../infrastructure/models/user_model.dart';
 
@@ -42,29 +43,26 @@ class NavBar extends StatelessWidget {
             ),
           ),
         ),
-
-        // ListTile(
-        //   leading: Icon(
-        //     Icons.business,
-        //     color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
-        //   ),
-        //   title: Text(
-        //     'Mi Negocio',
-        //     style: TextStyle(
-        //         color: Color.fromRGBO(78, 193, 176, 1.0),
-        //         fontSize: 22 // Color del texto
-        //         ),
-        //   ),
-        //   onTap: () async {
-        //     Navigator.pushAndRemoveUntil(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => ListadoNegocios()),
-        //       (route) => false,
-        //     );
-        //   },
-        // ),
-
-        //Divider(),
+        ListTile(
+          leading: Icon(
+            Icons.business,
+            color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
+          ),
+          title: Text(
+            'Inicio',
+            style: TextStyle(
+                color: Color.fromRGBO(78, 193, 176, 1.0),
+                fontSize: 22 // Color del texto
+                ),
+          ),
+          onTap: () async {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => PrincipalAdmin()),
+              (route) => false,
+            );
+          },
+        ),
         ListTile(
           leading: Icon(
             Icons.directions_bike,
@@ -85,7 +83,6 @@ class NavBar extends StatelessWidget {
             );
           },
         ),
-
         ListTile(
           leading: Icon(
             Icons.track_changes,
@@ -107,7 +104,6 @@ class NavBar extends StatelessWidget {
             );
           },
         ),
-
         ListTile(
             leading: Icon(
               Icons.exit_to_app,

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_bicirrenta/infrastructure/models/alquiler_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/bicy_model.dart';
+import 'package:app_bicirrenta/infrastructure/models/inicio_admin_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/solicitudes_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/tipe_bicy_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/user_model.dart';
@@ -254,6 +255,48 @@ class AdminRepository extends GetConnect {
       }
       Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
       return [];
+    }
+  }
+
+  Future<InicioAdminModel> getDataInicio() async {
+    try {
+      String url = '${Enviroment.apiUrl}/Radministrador/vista_ganancia';
+      UserModel userSession =
+          UserModel.fromJson(GetStorage().read('user') ?? {});
+      print(userSession.idPersona);
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'app': 'true',
+          'id_negocio': userSession.idBusiness,
+        },
+      );
+
+      print('respuesta api ${response.body}');
+      if (response.statusCode != 200) {
+        Get.snackbar('Problemas de conexión',
+            'Revise su conexión a Internet, e inténtelo nuevamente');
+        return InicioAdminModel();
+      }
+
+      if (response.body.isEmpty) {
+        Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+        return InicioAdminModel();
+      }
+
+      var decodeData = jsonDecode(response.body);
+
+      InicioAdminModel res = InicioAdminModel.fromJson(decodeData);
+      return res;
+    } catch (error) {
+      print(error);
+      if (error is SocketException) {
+        Get.snackbar('Problemas de conexión',
+            'Asegúrese que el dispositivo cuente con una conexión a Internet');
+        return InicioAdminModel();
+      }
+      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      return InicioAdminModel();
     }
   }
 }
