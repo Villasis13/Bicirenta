@@ -1,8 +1,11 @@
 import 'package:app_bicirrenta/Administrador/Bicicletas/Listado_Bicicletas.dart';
-import 'package:app_bicirrenta/Administrador/Sulicitudes/Solicitudes_Bicicletas.dart';
 import 'package:app_bicirrenta/presentation/logout/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../../Administrador/Sulicitudes/Inicio_Solicitud_Bicicleta.dart';
+import '../../infrastructure/models/user_model.dart';
 
 class BarraLateral extends StatelessWidget {
   final VoidCallback onLogout;
@@ -17,6 +20,8 @@ class BarraLateral extends StatelessWidget {
 }
 
 class NavBar extends StatelessWidget {
+  final UserModel userSession =
+      UserModel.fromJson(GetStorage().read('user') ?? {});
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,12 +29,13 @@ class NavBar extends StatelessWidget {
         Container(
           child: UserAccountsDrawerHeader(
             accountName: Text(
-              'Roger Chavez Medina',
+              '${userSession.personaNombre ?? ''} ${userSession.personaApellidoPaterno ?? ''}',
               style: TextStyle(fontSize: 18),
             ),
-            accountEmail: Text('rogerchavez10@gmail.com'),
+            accountEmail: Text(userSession.usuarioEmail ?? ''),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: Image.asset('assets/images/avatar7.png').image,
+              backgroundImage: NetworkImage(userSession.usuarioImagen ?? ''),
+              //Image.asset('assets/images/avatar7.png').image,
             ),
             decoration: BoxDecoration(
               color: Color.fromRGBO(72, 192, 180, 1.0),
@@ -95,7 +101,8 @@ class NavBar extends StatelessWidget {
           onTap: () async {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => Solicitudes()),
+              MaterialPageRoute(
+                  builder: (context) => InicioSolicitudBicicleta()),
               (route) => false,
             );
           },

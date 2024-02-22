@@ -1,17 +1,15 @@
+import 'package:app_bicirrenta/infrastructure/models/solicitudes_model.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../presentation/barra lateral/BarraLateral.dart';
+import 'solicitudes_controller.dart';
 
-class InicioSolicitudBicicleta extends StatefulWidget {
-  const InicioSolicitudBicicleta({Key? key}) : super(key: key);
+class InicioSolicitudBicicleta extends StatelessWidget {
+  final SolicitudesController controller = Get.put(SolicitudesController());
 
-  @override
-  _InicioSolicitudBicicletaState createState() =>
-      _InicioSolicitudBicicletaState();
-}
-
-class _InicioSolicitudBicicletaState extends State<InicioSolicitudBicicleta> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,7 +47,9 @@ class _InicioSolicitudBicicletaState extends State<InicioSolicitudBicicleta> {
         ),
         body: TabBarView(
           children: [
-            InicioSolicitudes(),
+            InicioSolicitudes(
+              controller: controller,
+            ),
             InicioAlquileres(),
           ],
         ),
@@ -59,20 +59,22 @@ class _InicioSolicitudBicicletaState extends State<InicioSolicitudBicicleta> {
 }
 
 class InicioSolicitudes extends StatelessWidget {
+  InicioSolicitudes({super.key, required this.controller});
+  final SolicitudesController controller;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
+    return GetBuilder<SolicitudesController>(builder: (_) {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
 
-          Container(
-            width: double.infinity,
-            //este se ba a borrar
-            //height: 500,
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(600),
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: const [
@@ -80,94 +82,147 @@ class InicioSolicitudes extends StatelessWidget {
                     color: Color.fromARGB(255, 12, 232, 166),
                     blurRadius: 1,
                   )
-                ]),
-
-            //hasta aqui
-
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Alinear a la izquierda
-              children: [
-                SizedBox(height: 4),
-
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 211, 220, 227),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromARGB(255, 153, 154, 154),
-                          blurRadius: 1,
-                        )
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Jorge Tenazoa Dorado',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text('Solicita Bicicleta',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text('BMX ROJA',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text('Por 1 Hora',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ],
+              ),
+              child: FutureBuilder<List<SolicitudesModel>>(
+                  future: controller.getSolicitudes(),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        return Center(
+                          child: Text('No existen solicitudes disponibles'),
+                        );
+                      }
+                      return Expanded(
+                        child: GridView.builder(
+                            itemCount: snapshot.data!.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // number of items in each row
+                              mainAxisSpacing: 5.0, // spacing between rows
+                              crossAxisSpacing: 1.0, // spacing between columns
+                              childAspectRatio: .65,
+                            ),
+                            itemBuilder: (s, index) {
+                              return Container(
+                                padding: const EdgeInsets.all(15),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: ScreenUtil().setWidth(4),
+                                    vertical: ScreenUtil().setHeight(5)),
+                                decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 211, 220, 227),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromARGB(255, 153, 154, 154),
+                                        blurRadius: 1,
+                                      )
+                                    ]),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      snapshot.data![index].personName ?? '',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: ScreenUtil().setHeight(5)),
+                                    Text('Solicita Bicicleta',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400)),
+                                    Text(snapshot.data![index].typeName ?? '',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: ScreenUtil().setHeight(5)),
+                                    Text(
+                                        'Por ${snapshot.data![index].timeSoli ?? ''} Hora(s)',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)),
+                                    Spacer(),
+                                    InkWell(
+                                      onTap: () {
+                                        controller.changeStatusSoli(
+                                            context,
+                                            'aceptar',
+                                            snapshot.data![index].idSoli!,
+                                            '2');
+                                      },
+                                      child: Container(
+                                        width: ScreenUtil().setWidth(100),
+                                        height: ScreenUtil().setHeight(30),
+                                        margin: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        controller.changeStatusSoli(
+                                            context,
+                                            'rechazar',
+                                            snapshot.data![index].idSoli!,
+                                            '0');
+                                      },
+                                      icon: Icon(
+                                        Icons.cancel_rounded,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      );
+                    } else if (snapshot.connectionState ==
+                            ConnectionState.done &&
+                        snapshot.hasError) {
+                      return Column(
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // Navigator.pushReplacementNamed(context, '/');
-                            },
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(40, 30),
-                                backgroundColor:
-                                    Color.fromARGB(255, 10, 10, 10),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: Icon(Icons.check,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                size: 20),
+                          const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 100,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Navigator.pushReplacementNamed(context, '/');
-                            },
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(40, 30),
-                                backgroundColor:
-                                    Color.fromARGB(255, 10, 10, 10),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            child: Icon(Icons.clear,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                size: 20),
-                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Text(
+                              'Ocurrió un error',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          )
                         ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 17),
-                // Container para el cuadrado
-              ],
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
             ),
-          ),
 
-          //fuera
-          SizedBox(height: 20),
-          //Text('Roger chavez', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
+            //fuera
+            SizedBox(height: 20),
+            //Text('Roger chavez', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -1105,11 +1160,4 @@ class InicioAlquileres extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: InicioSolicitudBicicleta(),
-  ));
 }
