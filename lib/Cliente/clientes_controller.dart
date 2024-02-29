@@ -62,6 +62,16 @@ class ClientesController extends GetxController {
   }
 
   Future<List<BusinessModel>> getSearchBusiness() async {
-    return await listSearch;
+    final query = searchController.text.trim();
+    if (query.isEmpty) {
+      isSearch = false;
+
+      update();
+    } else if (query.length == 1) {
+      isSearch = true;
+      update();
+    } else if (query.isNotEmpty) {}
+
+    return await businessRepository.searchAll(query);
   }
 }

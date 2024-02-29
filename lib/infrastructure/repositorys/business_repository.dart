@@ -49,6 +49,44 @@ class BusinessRepository extends GetConnect {
     }
   }
 
+  Future<List<BusinessModel>> searchAll(String query) async {
+    try {
+      String url = '${Enviroment.apiUrl}/Radministrador/buscador';
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'app': 'true',
+          'palabra_escrita': query,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        Get.snackbar('Problemas de conexión',
+            'Revise su conexión a Internet, e inténtelo nuevamente');
+        return [];
+      }
+
+      if (response.body.isEmpty) {
+        Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+        return [];
+      }
+
+      var decodeData = jsonDecode(response.body);
+
+      List<BusinessModel> bussiness = BusinessModel.fromJsonList(decodeData);
+      return bussiness;
+    } catch (error) {
+      print('Error back $error');
+      if (error is SocketException) {
+        Get.snackbar('Problemas de conexión',
+            'Asegúrese que el dispositivo cuente con una conexión a Internet');
+        return [];
+      }
+      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      return [];
+    }
+  }
+
   Future<int> solictarAlquiler(String idBicy, String time) async {
     try {
       String url = '${Enviroment.apiUrl}/Radministrador/solicitud_alquiler';
