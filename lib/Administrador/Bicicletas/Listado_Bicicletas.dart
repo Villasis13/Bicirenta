@@ -154,8 +154,11 @@ class BicyWidget extends StatelessWidget {
               bottom: ScreenUtil().setHeight(10),
             ),
             decoration: BoxDecoration(
-              color:
-                  (bicy.statusBicy == '0') ? Colors.orangeAccent : Colors.white,
+              color: (bicy.statusBicy == '0')
+                  ? Color(0XFFFFA0A0)
+                  : (bicy.statusBicy == '2')
+                      ? Color(0XFFBEFF95)
+                      : Colors.white,
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
@@ -194,6 +197,29 @@ class BicyWidget extends StatelessWidget {
                 image: DecorationImage(
                   image: AssetImage("assets/images/Bici_1.png"),
                   fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtil().setWidth(4),
+                vertical: ScreenUtil().setHeight(1),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.deepOrange,
+                  borderRadius: BorderRadius.circular(4)),
+              child: Text(
+                (bicy.statusBicy == '0')
+                    ? 'Ocupado'
+                    : (bicy.statusBicy == '2')
+                        ? 'Solicitado'
+                        : 'Libre',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
