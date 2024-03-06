@@ -6,31 +6,23 @@ import 'admin_controller.dart';
 
 class PrincipalAdmin extends StatelessWidget {
   final AdminController controller = Get.put(AdminController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
         actions: [
-          InkWell(
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  'assets/images/Logo_nombre.jpg',
-                  height: 30,
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                'assets/images/Logo_nombre.jpg',
+                height: 30,
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.notifications,
-                color: Colors.white), // Ajusta el color aquí
-            onPressed: () {
-              // Fta programar aquí
-            },
-          )
-          //SizedBox(width: ScreenUtil().setWidth(20)),
         ],
         elevation: 0,
         backgroundColor: Color(0xFF4FC1B0),
@@ -40,162 +32,106 @@ class PrincipalAdmin extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Container(
-                width: double.infinity,
-                //este se ba a borrar
-                //height: 700,
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 12, 232, 166),
-                        blurRadius: 1,
-                      )
-                    ]),
-
-                //hasta aqui
-
-                child: FutureBuilder(
-                  future: controller.getDataInicio(),
-                  builder: (context, AsyncSnapshot<InicioAdminModel> snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start, // Alinear a la izquierda
-                        children: [
-                          SizedBox(height: 4),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(15),
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 2),
-                                  decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                          255, 211, 220, 227),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color.fromARGB(
-                                              255, 153, 154, 154),
-                                          blurRadius: 1,
-                                        )
-                                      ]),
-                                  child: Form(
-                                    child: Container(
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.attach_money,
-                                                size: 60,
-                                                color: Colors
-                                                    .blue), // Icono de dinero
-                                            SizedBox(
-                                                height:
-                                                    10), // Ajusta el espacio entre el icono y el texto
-                                            Text('Ganancias del dia',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 20),
-                                            Text(
-                                                'S/. ${snapshot.data?.gDiaria ?? ''}',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 12, 232, 166).withOpacity(0.5),
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  )
+                ],
+              ),
+              child: FutureBuilder(
+                future: controller.getDataInicio(),
+                builder: (context, AsyncSnapshot<InicioAdminModel> snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 4),
+                        Center(
+                          // Centra el primer card
+                          child: Container(
+                            width: MediaQuery.of(context).size.width *
+                                0.8, // Ancho fijo para el card
+                            child: _buildInfoCard(
+                              context,
+                              icon: Icons.attach_money,
+                              title: 'Ganancias del día',
+                              value: 'S/. ${snapshot.data?.gDiaria ?? 0}',
+                              cardColor: Color(
+                                  0xFFE3F2FD), // Cambia el color de la tarjeta aquí
+                            ),
                           ),
-
-                          SizedBox(height: 20),
-
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.all(15),
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 2),
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 211, 220, 227),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color.fromARGB(
-                                              255, 153, 154, 154),
-                                          blurRadius: 1,
-                                        )
-                                      ]),
-                                  child: Form(
-                                    child: Container(
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(Icons.attach_money,
-                                                size: 60,
-                                                color: Colors
-                                                    .blue), // Icono de dinero
-                                            SizedBox(
-                                                height:
-                                                    10), // Ajusta el espacio entre el icono y el texto
-                                            Text('Total gananacias del mes',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 20),
-                                            Text(
-                                                'S/. ${snapshot.data?.gMensual ?? ''}',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            SizedBox(height: 10),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          // Centra el segundo card
+                          child: Container(
+                            width: MediaQuery.of(context).size.width *
+                                0.8, // Ancho fijo para el card
+                            child: _buildInfoCard(
+                              context,
+                              icon: Icons.attach_money,
+                              title: 'Total ganancias del mes',
+                              value: 'S/. ${snapshot.data?.gMensual ?? 0}',
+                              cardColor: Color(
+                                  0xFFE3F2FD), // Cambia el color de la tarjeta aquí
+                            ),
                           ),
-
-                          SizedBox(height: 20),
-
-                          SizedBox(height: 17),
-                          // Container para el cuadrado
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                )),
+                        ),
+                        SizedBox(height: 17),
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(BuildContext context,
+      {required IconData icon,
+      required String title,
+      required String value,
+      required Color cardColor}) {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(horizontal: 2),
+      decoration: BoxDecoration(
+        color: cardColor, // Usa el color pasado como parámetro
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(255, 153, 154, 154),
+            blurRadius: 1,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon, size: 60, color: Colors.blue),
+          SizedBox(height: 10),
+          Text(title,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          SizedBox(height: 20),
+          Text(value,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   }

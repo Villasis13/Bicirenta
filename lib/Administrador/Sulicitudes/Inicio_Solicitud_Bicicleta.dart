@@ -19,7 +19,7 @@ class InicioSolicitudBicicleta extends StatelessWidget {
         drawer: NavBar(),
         appBar: AppBar(
           title: Text(
-            "TRÁFICO",
+            "SOLICITUDES",
             style: const TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)),
           ),
           actions: [
@@ -232,6 +232,7 @@ class InicioSolicitudes extends StatelessWidget {
 class InicioAlquileres extends StatelessWidget {
   InicioAlquileres({super.key, required this.controller});
   final SolicitudesController controller;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -239,136 +240,112 @@ class InicioAlquileres extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 12, 232, 166),
-                      blurRadius: 1,
-                    )
-                  ]),
-
-              //hasta aqui
-
-              child: FutureBuilder(
-                future: controller.getAlquileres(),
-                builder:
-                    (context, AsyncSnapshot<List<AlquilerModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text('No existen alquileres disponibles'),
-                      );
-                    }
-                    return Column(
-                      children: snapshot.data!
-                          .map(
-                            (alquiler) => Container(
-                              margin: EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex:
-                                        2, // Ajusta el flex del primer contenedor para ocupar más ancho
-                                    child: Container(
-                                      padding: const EdgeInsets.all(13),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color.fromARGB(
-                                                  255, 153, 154, 154),
-                                              blurRadius: 1,
-                                            )
-                                          ]),
-                                      child: Form(
-                                        child: Container(
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(alquiler.personName ?? '',
-                                                    style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: ScreenUtil().setWidth(8)),
-                                  Expanded(
-                                    flex:
-                                        1, // Ajusta el flex del segundo contenedor para ocupar menos ancho
-                                    child: Container(
-                                      padding: const EdgeInsets.all(13),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color.fromARGB(
-                                                  255, 153, 154, 154),
-                                              blurRadius: 1,
-                                            )
-                                          ]),
-                                      child: Form(
-                                        child: Container(
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AutoSizeText(
-                                                  alquiler.devolucion ?? '',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  maxLines:
-                                                      1, // Ajusta según sea necesario
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    );
-                  } else {
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 227, 242, 253),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 12, 232, 166),
+                    blurRadius: 1,
+                  )
+                ]),
+            child: FutureBuilder(
+              future: controller.getAlquileres(),
+              builder: (context, AsyncSnapshot<List<AlquilerModel>> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Text('No existen alquileres disponibles'),
                     );
                   }
-                },
-              )),
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              'Persona que alquiló',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Hora de devolución',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      ...snapshot.data!.map(
+                        (alquiler) => Container(
+                          margin: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  padding: const EdgeInsets.all(13),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromARGB(255, 153, 154, 154),
+                                        blurRadius: 1,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    alquiler.personName ?? '',
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  padding: const EdgeInsets.all(13),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromARGB(255, 153, 154, 154),
+                                        blurRadius: 1,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    alquiler.devolucion ?? '',
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
         ],
       ),
     );

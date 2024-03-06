@@ -80,7 +80,7 @@ class ListadoBicicletas extends StatelessWidget {
                           snapshot.hasData) {
                         if (snapshot.data!.isEmpty) {
                           return Center(
-                            child: Text('No existen negocios disponibles'),
+                            child: Text('Aún no se han registrados bicicletas'),
                           );
                         }
                         return Expanded(

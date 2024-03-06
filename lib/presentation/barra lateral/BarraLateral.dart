@@ -35,9 +35,10 @@ class NavBar extends StatelessWidget {
             ),
             accountEmail: Text(userSession.usuarioEmail ?? ''),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(userSession.usuarioImagen ?? ''),
-              //Image.asset('assets/images/avatar7.png').image,
-            ),
+                backgroundImage: AssetImage("assets/images/avatar7.png")
+                // backgroundImage: NetworkImage(userSession.usuarioImagen ?? ''),
+                //Image.asset('assets/images/avatar7.png').image,
+                ),
             decoration: BoxDecoration(
               color: Color.fromRGBO(72, 192, 180, 1.0),
             ),
@@ -45,7 +46,7 @@ class NavBar extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
-            Icons.business,
+            Icons.home,
             color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
           ),
           title: Text(
@@ -85,11 +86,11 @@ class NavBar extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(
-            Icons.track_changes,
+            Icons.notifications,
             color: Color.fromRGBO(78, 193, 176, 1.0), // Color del icono
           ),
           title: Text(
-            'Tráfico',
+            'Solicitudes',
             style: TextStyle(
                 color: Color.fromRGBO(78, 193, 176, 1.0),
                 fontSize: 22 // Color del texto

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../presentation/logout/logout.dart';
+import 'Datos_clientes.dart';
 
 class MenuCliente extends StatefulWidget {
   const MenuCliente({Key? key}) : super(key: key);
@@ -24,41 +24,41 @@ class ClienteState extends State<MenuCliente> {
       appBar: AppBar(
         actions: [
           InkWell(
-            onTap: () async {
-              await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('BICI RENTA'),
-                    content: Text('¿Estás seguro que deseas cerrar sesión?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Color.fromRGBO(
-                              78, 193, 176, 1.0), // Color del texto
-                        ),
-                        child: Text('No'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          LogOutController controller =
-                              Get.put(LogOutController());
-                          controller.logout();
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Color.fromRGBO(
-                              78, 193, 176, 1.0), // Color del texto
-                        ),
-                        child: Text('Si'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+            // onTap: () async {
+            //   await showDialog<bool>(
+            //     context: context,
+            //     builder: (BuildContext context) {
+            //       return AlertDialog(
+            //         title: Text('BICI RENTA'),
+            //         content: Text('¿Estás seguro que deseas cerrar sesión?'),
+            //         actions: [
+            //           TextButton(
+            //             onPressed: () {
+            //               Navigator.pop(context);
+            //             },
+            //             style: TextButton.styleFrom(
+            //               foregroundColor: Color.fromRGBO(
+            //                   78, 193, 176, 1.0), // Color del texto
+            //             ),
+            //             child: Text('No'),
+            //           ),
+            //           TextButton(
+            //             onPressed: () {
+            //               LogOutController controller =
+            //                   Get.put(LogOutController());
+            //               controller.logout();
+            //             },
+            //             style: TextButton.styleFrom(
+            //               foregroundColor: Color.fromRGBO(
+            //                   78, 193, 176, 1.0), // Color del texto
+            //             ),
+            //             child: Text('Si'),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   );
+            // },
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
@@ -111,6 +111,10 @@ class ClienteState extends State<MenuCliente> {
           ],
         ),
       ),
+
+
+      //tap del botón de abajo
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -122,19 +126,11 @@ class ClienteState extends State<MenuCliente> {
           backgroundColor: Color.fromARGB(255, 252, 255, 252),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_sharp,
-                  color: _selectedIndex == 0
-                      ? Color(0xFF34B086)
-                      : Color.fromARGB(255, 125, 125, 133),
-                  size: 50),
+              icon: Icon(Icons.home_sharp, color: _selectedIndex == 0 ? Color(0xFF34B086) : Color.fromARGB(255, 125, 125, 133), size: 50),
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person,
-                  color: _selectedIndex == 1
-                      ? Color(0xFF34B086)
-                      : Color.fromARGB(255, 125, 125, 133),
-                  size: 50),
+              icon: Icon(Icons.person, color: _selectedIndex == 1 ? Color(0xFF34B086) : Color.fromARGB(255, 125, 125, 133), size: 50),
               label: '',
             ),
           ],
@@ -145,6 +141,19 @@ class ClienteState extends State<MenuCliente> {
           onTap: (int index) {
             setState(() {
               _selectedIndex = index;
+              if (_selectedIndex == 0) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuCliente()),
+                  (route) => false,
+                );
+              } else if (_selectedIndex == 1) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => DatosCliente()),
+                  (route) => false,
+                );
+              }
             });
           },
           type: BottomNavigationBarType.fixed,
@@ -153,6 +162,7 @@ class ClienteState extends State<MenuCliente> {
           unselectedIconTheme: IconThemeData(size: 40),
         ),
       ),
+
     );
   }
 }
