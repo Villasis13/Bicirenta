@@ -1,3 +1,4 @@
+import 'package:app_bicirrenta/Cliente/clientes_controller.dart';
 import 'package:app_bicirrenta/infrastructure/models/bicy_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,6 +48,8 @@ class AlquilerController extends GetxController {
     progressDialog.close();
 
     if (loginmodel == 1) {
+      ClientesController reload = Get.find();
+      reload.update();
       Get.snackbar('Solicitud realizada', '');
       Navigator.pop(context);
     } else {
