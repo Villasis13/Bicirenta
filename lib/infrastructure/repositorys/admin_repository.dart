@@ -299,4 +299,44 @@ class AdminRepository extends GetConnect {
       return InicioAdminModel();
     }
   }
+
+  Future<int> returnBicy(String idSoli) async {
+    try {
+      String url = '${Enviroment.apiUrl}/Radministrador/devolver_bicicleta';
+
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'app': 'true',
+          'id_alquiler': idSoli,
+        },
+      );
+
+      print(response.body);
+
+      if (response.statusCode != 200) {
+        Get.snackbar('Problemas de conexión',
+            'Revise su conexión a Internet, e inténtelo nuevamente');
+        return 2;
+      }
+
+      if (response.body.isEmpty) {
+        Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+        return 2;
+      }
+
+      var decodeData = jsonDecode(response.body);
+
+      return decodeData;
+    } catch (error) {
+      print(error);
+      if (error is SocketException) {
+        Get.snackbar('Problemas de conexión',
+            'Asegúrese que el dispositivo cuente con una conexión a Internet');
+        return 2;
+      }
+      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      return 2;
+    }
+  }
 }

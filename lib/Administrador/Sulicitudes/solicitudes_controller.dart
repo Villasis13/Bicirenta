@@ -76,4 +76,64 @@ class SolicitudesController extends GetxController {
       Get.snackbar('Ocurrió un error', 'Inténtelo nuevamente');
     }
   }
+
+  returnAlquiler(BuildContext context, String idSoli) async {
+    await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('BICI RENTA'),
+          content: Text(
+              '¿Estás seguro que deseas confirmar la devolución de la bicicleta?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor:
+                    Color.fromRGBO(78, 193, 176, 1.0), // Color del texto
+              ),
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Navigator.pop(context);
+                _updateAlquiler(context, idSoli);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor:
+                    Color.fromRGBO(78, 193, 176, 1.0), // Color del texto
+              ),
+              child: Text('Si'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _updateAlquiler(BuildContext context, String idSolid) async {
+    ProgressDialog progressDialog = ProgressDialog(context: context);
+    progressDialog.show(
+        max: 100,
+        msg: 'Cargando...',
+        progressValueColor: const Color(0xFF35AF86),
+        progressBgColor: Colors.orangeAccent,
+        valueFontSize: 5,
+        msgFontSize: 19,
+        barrierColor: Color.fromRGBO(124, 136, 207, 0.514));
+
+    int resultado = await repository.returnBicy(idSolid);
+
+    progressDialog.close();
+
+    if (resultado == 1) {
+      update();
+      Get.snackbar('Acción realizada', '');
+      Navigator.pop(context);
+    } else {
+      Get.snackbar('Ocurrió un error', 'Inténtelo nuevamente');
+    }
+  }
 }

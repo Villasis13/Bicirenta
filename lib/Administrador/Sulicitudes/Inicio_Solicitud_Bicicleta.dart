@@ -1,6 +1,5 @@
 import 'package:app_bicirrenta/infrastructure/models/alquiler_model.dart';
 import 'package:app_bicirrenta/infrastructure/models/solicitudes_model.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -235,119 +234,150 @@ class InicioAlquileres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                color: Color.fromARGB(255, 227, 242, 253),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 12, 232, 166),
-                    blurRadius: 1,
-                  )
-                ]),
-            child: FutureBuilder(
-              future: controller.getAlquileres(),
-              builder: (context, AsyncSnapshot<List<AlquilerModel>> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text('No existen alquileres disponibles'),
-                    );
-                  }
-                  return Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              'Persona que alquiló',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+    return GetBuilder<SolicitudesController>(builder: (_) {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 227, 242, 253),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 12, 232, 166),
+                      blurRadius: 1,
+                    )
+                  ]),
+              child: FutureBuilder(
+                future: controller.getAlquileres(),
+                builder:
+                    (context, AsyncSnapshot<List<AlquilerModel>> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text('No existen alquileres disponibles'),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Persona que alquiló',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'Hora de devolución',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                'Hora de devolución',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      ...snapshot.data!.map(
-                        (alquiler) => Container(
-                          margin: EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color:
-                                            Color.fromARGB(255, 153, 154, 154),
-                                        blurRadius: 1,
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    alquiler.personName ?? '',
-                                    style: TextStyle(fontSize: 13),
+                            SizedBox(
+                              width: ScreenUtil().setWidth(30),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        ...snapshot.data!.map(
+                          (alquiler) => Container(
+                            margin: EdgeInsets.all(8),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(13),
+                                    decoration: BoxDecoration(
+                                      color: (alquiler.estado == '1')
+                                          ? Color(0XFFFFA0A0)
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(
+                                              255, 153, 154, 154),
+                                          blurRadius: 1,
+                                        )
+                                      ],
+                                    ),
+                                    child: Text(
+                                      alquiler.personName ?? '',
+                                      style: TextStyle(fontSize: 13),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: const EdgeInsets.all(13),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color:
-                                            Color.fromARGB(255, 153, 154, 154),
-                                        blurRadius: 1,
-                                      )
-                                    ],
-                                  ),
-                                  child: Text(
-                                    alquiler.devolucion ?? '',
-                                    style: TextStyle(fontSize: 13),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(13),
+                                    decoration: BoxDecoration(
+                                      color: (alquiler.estado == '1')
+                                          ? Color(0XFFFFA0A0)
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromARGB(
+                                              255, 153, 154, 154),
+                                          blurRadius: 1,
+                                        )
+                                      ],
+                                    ),
+                                    child: Text(
+                                      alquiler.devolucion ?? '',
+                                      style: TextStyle(fontSize: 13),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                InkWell(
+                                  onTap: () {
+                                    controller.returnAlquiler(
+                                      context,
+                                      alquiler.idAlquiler!,
+                                    );
+                                  },
+                                  child: Container(
+                                    width: ScreenUtil().setWidth(30),
+                                    height: ScreenUtil().setHeight(30),
+                                    margin: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
