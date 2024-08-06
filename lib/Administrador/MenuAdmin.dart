@@ -57,15 +57,17 @@ class PrincipalAdmin extends StatelessWidget {
                         Center(
                           // Centra el primer card
                           child: Container(
-                            width: MediaQuery.of(context).size.width *
-                                0.8, // Ancho fijo para el card
+                            width: MediaQuery.of(context).size.width * 0.8, // Ancho fijo para el card
+                           
                             child: _buildInfoCard(
                               context,
-                              icon: Icons.attach_money,
+                              iconOrImage: Image.asset(
+                                'assets/images/ganancias_dia.png',
+                                height: 100,
+                              ),
                               title: 'Ganancias del día',
                               value: 'S/. ${snapshot.data?.gDiaria ?? 0}',
-                              cardColor: Color(
-                                  0xFFE3F2FD), // Cambia el color de la tarjeta aquí
+                              cardColor: Color(0xFFE3F2FD),
                             ),
                           ),
                         ),
@@ -77,7 +79,10 @@ class PrincipalAdmin extends StatelessWidget {
                                 0.8, // Ancho fijo para el card
                             child: _buildInfoCard(
                               context,
-                              icon: Icons.attach_money,
+                              iconOrImage: Image.asset(
+                                'assets/images/ganancias_mes.png',
+                                height: 100,
+                              ),
                               title: 'Total ganancias del mes',
                               value: 'S/. ${snapshot.data?.gMensual ?? 0}',
                               cardColor: Color(
@@ -103,7 +108,7 @@ class PrincipalAdmin extends StatelessWidget {
   }
 
   Widget _buildInfoCard(BuildContext context,
-      {required IconData icon,
+      {required Widget iconOrImage,
       required String title,
       required String value,
       required Color cardColor}) {
@@ -124,7 +129,7 @@ class PrincipalAdmin extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 60, color: Colors.blue),
+           iconOrImage,
           SizedBox(height: 10),
           Text(title,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),

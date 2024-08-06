@@ -41,7 +41,7 @@ class LoginRepository extends GetConnect {
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
         return LoginModel();
       }
-      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      Get.snackbar('Ocurrió un error ', 'No se pudo ejecutar la petición');
       return LoginModel();
     }
   }
@@ -72,7 +72,7 @@ class LoginRepository extends GetConnect {
       }
 
       if (response.body.isEmpty) {
-        Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+        Get.snackbar('Ocurrió un error ', 'No se pudo ejecutar la petición');
         return LoginModel();
       }
       LoginModel loginModel = LoginModel.fromJson(jsonDecode(response.body));

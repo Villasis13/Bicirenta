@@ -54,8 +54,7 @@ class AdminRepository extends GetConnect {
   Future<List<BicyModel>> getMyBicys() async {
     try {
       String url = '${Enviroment.apiUrl}/Radministrador/listado_bicicletas';
-      UserModel userSession =
-          UserModel.fromJson(GetStorage().read('user') ?? {});
+      UserModel userSession =  UserModel.fromJson(GetStorage().read('user') ?? {});
       final response = await http.post(
         Uri.parse(url),
         body: {
@@ -86,7 +85,7 @@ class AdminRepository extends GetConnect {
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
         return [];
       }
-      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      // Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
       return [];
     }
   }
@@ -169,7 +168,7 @@ class AdminRepository extends GetConnect {
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
         return [];
       }
-      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      // Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
       return [];
     }
   }
@@ -253,7 +252,7 @@ class AdminRepository extends GetConnect {
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
         return [];
       }
-      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      // Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
       return [];
     }
   }
@@ -295,7 +294,7 @@ class AdminRepository extends GetConnect {
             'Asegúrese que el dispositivo cuente con una conexión a Internet');
         return InicioAdminModel();
       }
-      Get.snackbar('Ocurrió un error', 'No se pudo ejecutar la petición');
+      // Get.snackbar('Ocurrió un error 1', 'No se pudo ejecutar la petición');
       return InicioAdminModel();
     }
   }
