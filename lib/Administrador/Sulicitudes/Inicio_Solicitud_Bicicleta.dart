@@ -99,12 +99,11 @@ class InicioSolicitudes extends StatelessWidget {
                       return Expanded(
                         child: GridView.builder(
                             itemCount: snapshot.data!.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // number of items in each row
                               mainAxisSpacing: 5.0, // spacing between rows
-                              crossAxisSpacing: 1.0, // spacing between columns
-                              childAspectRatio: .65,
+                              crossAxisSpacing: 2.0, // spacing between columns
+                              childAspectRatio: .64,
                             ),
                             itemBuilder: (s, index) {
                               return Container(
@@ -173,19 +172,43 @@ class InicioSolicitudes extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {
+                                    // Spacer(),
+                                    InkWell(
+                                      onTap: () {
                                         controller.changeStatusSoli(
                                             context,
                                             'rechazar',
                                             snapshot.data![index].idSoli!,
                                             '0');
                                       },
-                                      icon: Icon(
-                                        Icons.cancel_rounded,
-                                        color: Colors.black,
+                                      child: Container(
+                                        width: ScreenUtil().setWidth(100),
+                                        height: ScreenUtil().setHeight(30),
+                                        margin: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Icon(
+                                          Icons.cancel_rounded,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
+                                    // IconButton(
+                                    //   onPressed: () {
+                                    //     controller.changeStatusSoli(
+                                    //         context,
+                                    //         'rechazar',
+                                    //         snapshot.data![index].idSoli!,
+                                    //         '0');
+                                    //   },
+                                    //   icon: Icon(
+                                    //     Icons.cancel_rounded,
+                                    //     color: Colors.black,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               );

@@ -36,7 +36,7 @@ import 'package:get/get.dart';
           SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Image.asset('assets/images/logo1.png',fit: BoxFit.cover,),
+            child: Image.asset('assets/images/logo_V3.png',fit: BoxFit.cover,),
           ),
           SizedBox(height: 80),
           Text('Verficando datos',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),

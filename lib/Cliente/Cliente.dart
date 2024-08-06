@@ -104,9 +104,11 @@ class ClienteState extends State<MenuCliente> {
               ),
             ),
             SizedBox(height: 20),
+
             BusinessScreen(
               controllerBusiness: controllerBusiness,
             ),
+            
             SizedBox(height: 20),
           ],
         ),

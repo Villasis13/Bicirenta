@@ -39,88 +39,345 @@ class ClienteState extends State<DatosCliente> {
         elevation: 0,
         backgroundColor: Color(0xFF4FC1B0),
       ),
+      
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       const SizedBox(height: 20),
+      //       Center(
+      //         child: UserAccountsDrawerHeader(
+      //           accountName: Text(
+      //             '${userSession.personaNombre ?? ''} ${userSession.personaApellidoPaterno ?? ''}',
+      //             style: TextStyle(
+      //               fontSize: 18,
+      //               color: Colors.black,
+      //             ),
+      //             textAlign: TextAlign.center, // Alinea el texto al centro
+      //           ),
+      //           currentAccountPicture: CircleAvatar(
+      //             backgroundImage: AssetImage("assets/images/avatar7.png"),
+      //           ),
+      //           decoration: BoxDecoration(
+      //             color: Colors.white,
+      //           ),
+      //           accountEmail: null,
+      //         ),
+      //       ),
+
+      //       ElevatedButton.icon(
+      //         onPressed: () async {
+      //           await showDialog<bool>(
+      //             context: context,
+      //             builder: (BuildContext context) {
+      //               return AlertDialog(
+      //                 title: Text(
+      //                   'BICIRENTA',
+      //                   textAlign: TextAlign.center,
+      //                   style: TextStyle(
+      //                     color: Color.fromRGBO(10, 158, 136, 1),
+      //                   ),
+      //                 ),
+      //                 content: Text('¿Estás seguro de cerrar sesión?'),
+      //                 actions: [
+      //                   TextButton(
+      //                     onPressed: () {
+      //                       Navigator.pop(context);
+      //                     },
+      //                     style: TextButton.styleFrom(
+      //                       foregroundColor: Color.fromRGBO(78, 193, 176, 1.0),
+      //                     ),
+      //                     child: Text(
+      //                       'No',
+      //                       style: TextStyle(fontSize: 17),
+      //                     ),
+      //                   ),
+      //                   TextButton(
+      //                     onPressed: () {
+      //                       LogOutController controller =
+      //                           Get.put(LogOutController());
+      //                       controller.logout();
+      //                     },
+      //                     style: TextButton.styleFrom(
+      //                       foregroundColor: Color.fromRGBO(78, 193, 176, 1.0),
+      //                     ),
+      //                     child: Text(
+      //                       'Si',
+      //                       style: TextStyle(fontSize: 17),
+      //                     ),
+      //                   ),
+      //                 ],
+      //               );
+      //             },
+      //           );
+      //         },
+      //         icon: Icon(Icons.exit_to_app, color: Colors.white, size: 30),
+      //         label: Text('Cerrar Sesión',
+      //             style: TextStyle(color: Colors.white, fontSize: 20)),
+      //         style: ElevatedButton.styleFrom(
+      //             minimumSize: const Size(300, 40),
+      //             backgroundColor: const Color(0xFF35AF86),
+      //             shape: RoundedRectangleBorder(
+      //                 borderRadius: BorderRadius.circular(10))),
+      //       ),
+      //       const SizedBox(height: 20),
+      //     ],
+      //   ),
+      // ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Center(
-              child: UserAccountsDrawerHeader(
-                accountName: Text(
-                  '${userSession.personaNombre ?? ''} ${userSession.personaApellidoPaterno ?? ''}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center, // Alinea el texto al centro
+            Container(
+              width: double.infinity,
+              //la altura
+              //height: 450,
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Color.fromARGB(255, 12, 232, 166),
                 ),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/avatar7.png"),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                accountEmail: null,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    offset: Offset(0, 5)
+                  )
+                ]
               ),
-            ),
-            ElevatedButton.icon(
-              onPressed: () async {
-                await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(
-                        'BICIRENTA',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromRGBO(10, 158, 136, 1),
+
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  //Text Nombre Completo
+                  Container(
+                    child: Form(
+                      child: Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                            
+                              Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(159, 128, 135, 137),
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/images/avatar7.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(15),
+                                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.white,
+                                            blurRadius: 1,
+                                          )
+                                        ]
+                                      ),
+                                      child: Form(
+                                        child: Container(
+                                          child: Center(
+                                            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(height: 10),
+                                                Container(
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center, // Centra los elementos horizontalmente
+                                                    children: [
+                                                      // Text('Roger',
+                                                      //   style: TextStyle(
+                                                      //     fontSize: 18,
+                                                      //     fontWeight: FontWeight.bold
+                                                      //   )
+                                                      // ),
+
+                                                      SizedBox(width: 5), 
+                                                      
+                                                      Text(
+                                                        '${userSession.personaNombre ?? ''} ${userSession.personaApellidoPaterno ?? ''}',
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black,)
+                                                        // style: TextStyle(
+                                                        //   fontSize: 18,
+                                                        //   fontWeight: FontWeight.bold
+                                                        //   // fontWeight: FontWeight.bold, color: Color( 0xFF34B086),
+                                                        // ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding: const EdgeInsets.all(15),
+                                                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              color: Colors.white,
+                                                              blurRadius: 1,
+                                                            )
+                                                          ]
+                                                        ),
+                                                        child: Form(
+                                                          child: Container(
+                                                            child: Center(
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Container(
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.center, // Centra los elementos horizontalmente
+                                                                      children: [
+                                                                        // Text('00000000',
+                                                                        //   style: TextStyle(
+                                                                        //     fontSize: 18,
+                                                                        //     fontWeight: FontWeight.bold
+                                                                        //   )
+                                                                        // ),
+
+                                                                        // SizedBox(width: 5), 
+                                                                        
+                                                                        Text(' ',
+                                                                          // controller.bicy
+                                                                          //         .typeBicy ??
+                                                                          //     '',
+                                                                          style: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight: FontWeight.bold
+                                                                            // fontWeight: FontWeight.bold, color: Color( 0xFF34B086),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                // SizedBox(height: 10),
+                                                
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                
+                                  // const SizedBox(height: 5),
+
+                                  //Boton Cancelar o Regresar al Inicio_Sesion
+                                ],
+                              ),
+                              
+                              SizedBox(height: 30,),
+
+                              ElevatedButton.icon(
+                                onPressed: () async {
+                                  await showDialog<bool>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'BICIRENTA',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(12, 13, 13, 1), 
+                                          ),
+                                        ),
+                                        content: Text('¿Estás seguro que deseas cerrar sesión?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Color.fromRGBO(
+                                                  78, 193, 176, 1.0), 
+                                            ),
+                                            child: Text('No', style: TextStyle(fontSize: 17),),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              LogOutController controller =
+                                                  Get.put(LogOutController());
+                                              controller.logout();
+                                            },
+                                            style: TextButton.styleFrom(
+                                              foregroundColor: Color.fromRGBO(
+                                                  78, 193, 176, 1.0),
+                                            ),
+                                            child: Text('Si',style: TextStyle(fontSize: 17),),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: Icon(Icons.exit_to_app, color: Colors.white, size: 30),
+                                label: Text('Cerrar Sesión', style: TextStyle(color: Colors.white, fontSize: 20)), 
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(300, 40),
+                                  backgroundColor: const Color(0xFF35AF86),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)
+                                  )
+                                ),
+                              ),
+
+
+
+
+
+                              const SizedBox(height: 10),
+                            ]
+                          ),
                         ),
                       ),
-                      content: Text('¿Estás seguro de cerrar sesión?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Color.fromRGBO(78, 193, 176, 1.0),
-                          ),
-                          child: Text(
-                            'No',
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            LogOutController controller =
-                                Get.put(LogOutController());
-                            controller.logout();
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Color.fromRGBO(78, 193, 176, 1.0),
-                          ),
-                          child: Text(
-                            'Si',
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: Icon(Icons.exit_to_app, color: Colors.white, size: 30),
-              label: Text('Cerrar Sesión',
-                  style: TextStyle(color: Colors.white, fontSize: 20)),
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(300, 40),
-                  backgroundColor: const Color(0xFF35AF86),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
+                    ),
+                  )
+                ]
+              ),
             ),
-            const SizedBox(height: 20),
+
+            //fuera
+            SizedBox(height: 20),
+            //Text('Roger chavez', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
+
+
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(

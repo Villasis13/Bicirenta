@@ -72,7 +72,7 @@ class SignUpController extends GetxController {
           goToInicioScreen();
         }
       } else {
-        Get.snackbar('Ocurrió un error', loginmodel.message ?? '');
+        Get.snackbar('El usuario ya existe', loginmodel.message ?? '');
       }
     }
   }
@@ -125,7 +125,7 @@ class SignUpController extends GetxController {
           goToInicioScreen();
         }
       } else {
-        Get.snackbar('Ocurrió un error', loginmodel.message ?? '');
+        Get.snackbar('El usuario ya existe ', loginmodel.message ?? '');
       }
     }
   }

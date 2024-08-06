@@ -68,7 +68,7 @@ class BusinessScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: Text(
-                          'Ocurrió un error',
+                          'Ocurrió un error ',
                           style: TextStyle(fontSize: 20),
                         ),
                       )
@@ -156,7 +156,9 @@ class BusinessWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ],
           ),
+
           SizedBox(height: 20),
+          
           (business.bicys!.isEmpty)
               ? Text(
                   'No existen bicicletas disponibles para este negocio',
@@ -169,6 +171,7 @@ class BusinessWidget extends StatelessWidget {
               : SizedBox(
                   height: ScreenUtil().setHeight(230),
                   width: double.infinity,
+                  
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: business.bicys!.length,

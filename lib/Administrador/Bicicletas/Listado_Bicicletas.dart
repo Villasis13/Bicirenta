@@ -5,6 +5,7 @@ import 'package:app_bicirrenta/presentation/barra%20lateral/BarraLateral.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'admin_bicy_controller.dart';
 
 class ListadoBicicletas extends StatelessWidget {
   final ListBicyController controller = Get.put(ListBicyController());
@@ -20,6 +21,7 @@ class ListadoBicicletas extends StatelessWidget {
         ),
         actions: [
           InkWell(
+            
             child: Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
@@ -35,6 +37,8 @@ class ListadoBicicletas extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Get.toNamed('/saveBicy');
+                AdminBicyController t = Get.find<AdminBicyController>();
+                t.resetFields(); 
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
@@ -49,97 +53,142 @@ class ListadoBicicletas extends StatelessWidget {
         elevation: 0,
         backgroundColor: Color(0xFF4FC1B0),
       ),
+      
       body: GetBuilder<ListBicyController>(builder: (_) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Text('Listado de Bicicletas',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Container(
-                height: ScreenUtil().setHeight(600),
-                padding: const EdgeInsets.all(20),
-                margin: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil().setWidth(16),
-                  vertical: ScreenUtil().setHeight(10),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 15,
-                        offset: Offset(0, 5))
-                  ],
-                ),
-                child: FutureBuilder<List<BicyModel>>(
-                    future: controller.getMyBicys(),
-                    builder: (_, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.hasData) {
-                        if (snapshot.data!.isEmpty) {
+        return RefreshIndicator(
+          onRefresh: () => controller.getMyBicys(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Text('Listado de Bicicletas',  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Container(
+                  height: ScreenUtil().setHeight(600),
+                  padding: const EdgeInsets.all(20),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: ScreenUtil().setWidth(16),
+                    vertical: ScreenUtil().setHeight(10),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 15,
+                          offset: Offset(0, 5))
+                    ],
+                  ),
+                  child: FutureBuilder<List<BicyModel>>(
+                      future: controller.getMyBicys(),
+                      builder: (_, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          if (snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Text('Aún no se han registrados bicicletas'),
+                            );
+                          }
+                          return Expanded(
+                            child: GridView.builder(
+                                itemCount: snapshot.data!.length,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // number of items in each row
+                                  mainAxisSpacing: 8.0, // spacing between rows
+                                  crossAxisSpacing:  8.0, // spacing between columns
+                                  childAspectRatio: .7,
+                                ),
+                                itemBuilder: (s, index) {
+                                  return BicyWidget(bicy: snapshot.data![index]);
+                                }),
+                          );
+                        } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasError) {
+                          return Column(
+                            children: [
+                              const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                                size: 100,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: Text(
+                                  'Ocurrió un error',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              )
+                            ],
+                          );
+                        } else {
                           return Center(
-                            child: Text('Aún no se han registrados bicicletas'),
+                            child: CircularProgressIndicator(),
                           );
                         }
-                        return Expanded(
-                          child: GridView.builder(
-                              itemCount: snapshot.data!.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    2, // number of items in each row
-                                mainAxisSpacing: 8.0, // spacing between rows
-                                crossAxisSpacing:
-                                    8.0, // spacing between columns
-                                childAspectRatio: .7,
-                              ),
-                              itemBuilder: (s, index) {
-                                return BicyWidget(bicy: snapshot.data![index]);
-                              }),
-                        );
-                      } else if (snapshot.connectionState ==
-                              ConnectionState.done &&
-                          snapshot.hasError) {
-                        return Column(
-                          children: [
-                            const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                              size: 100,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 30),
-                              child: Text(
-                                'Ocurrió un error',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            )
-                          ],
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    }),
-              ),
-            ],
+                      }),
+                ),
+              ],
+            ),
           ),
         );
       }),
+
+         
+      
     );
   }
 }
 
 class BicyWidget extends StatelessWidget {
+  
   BicyWidget({super.key, required this.bicy});
   final BicyModel bicy;
+  final AdminBicyController t = Get.put(AdminBicyController());
+
+
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      // onLongPress: () {
+      //   if(bicy.statusBicy != "0"){
+      //     bool validar =  t.ModalEstado(context, int.parse(bicy.idBicy.toString()));
+      //     if(validar){          
+      //       ListadoBicicletas().controller.getMyBicys();
+      //     }
+      //   } else {
+      //     Get.snackbar("Estado", "No se puede Cambiar el estado de la bicicleta, Esta en Uso", colorText: Colors.white, backgroundColor: Colors.red);
+      //   }
+        
+      // },
+
+      onLongPress: () {
+        if (bicy.statusBicy != "0" && bicy.statusBicy != "2") {
+          bool validar = t.ModalEstado(context, int.parse(bicy.idBicy.toString()));
+          if (validar) {
+          ListadoBicicletas().controller.getMyBicys();
+          }
+        }else {
+          Get.snackbar("Estado", "No se puede cambiar el estado de la bicicleta, está en uso o solicitado", colorText: Colors.white, backgroundColor: Colors.red);
+        }
+      },
+
+      onTap: () => {
+        //Get.snackbar("eeee", bicy.idBicy.toString()),
+        t.Ojo.value = "",
+        
+        t.selectBicycleForEdit(bicy),
+        // t.Ojo.value = bicy.typeBicy.toString(),
+        t.Ojo.value = bicy.typeBicy ?? "",
+        t.IdBicicletaselect.value = int.parse(bicy.idBicy.toString()),
+        // t.nameBicyController.text = bicy.typeBicy.toString(),
+        t.nameBicyController.text = bicy.typeBicy ?? "",
+        // t.infoBicyController.text = bicy.infoBicy.toString(),
+        t.infoBicyController.text = bicy.infoBicy ?? "",
+        // t.priceBicyController.text = bicy.priceBicy.toString(),
+        t.priceBicyController.text = bicy.priceBicy ?? "",
+        Get.toNamed('/saveBicy'),
+      },
+
       child: Container(
         width: ScreenUtil().setWidth(160),
         height: ScreenUtil().setHeight(220),
@@ -153,22 +202,35 @@ class BicyWidget extends StatelessWidget {
               top: ScreenUtil().setHeight(50),
               bottom: ScreenUtil().setHeight(10),
             ),
+            // decoration: BoxDecoration(
+            //   color: (bicy.statusBicy == '0') ? Color(0XFFFFA0A0) : (bicy.statusBicy == '2') ? Color.fromARGB(255, 84, 180, 24) : Colors.white, 
+            //   border: Border.all(color: Colors.grey),
+            //   borderRadius: BorderRadius.circular(30),
+            //   boxShadow: [
+            //     BoxShadow(
+            //         color: Colors.black.withOpacity(.3),
+            //         offset: Offset(0, 4),
+            //         blurRadius: 6,
+            //         spreadRadius: 0),
+            //   ],
+            // ),
             decoration: BoxDecoration(
-              color: (bicy.statusBicy == '0')
-                  ? Color(0XFFFFA0A0)
-                  : (bicy.statusBicy == '2')
-                      ? Color(0XFFBEFF95)
-                      : Colors.white,
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(.3),
-                    offset: Offset(0, 4),
-                    blurRadius: 6,
-                    spreadRadius: 0),
-              ],
-            ),
+            color: (bicy.statusBicy == '0') ? Color(0XFFFFA0A0) 
+                : (bicy.statusBicy == '3') ? Color.fromRGBO(162, 171, 170, 1)
+                : (bicy.statusBicy == '2') ? Color.fromARGB(255, 136, 188, 104)
+                    : Color.fromARGB(255, 244, 248, 241),  // Cambia este color al que desees cuando el estado es '2'
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(.3),
+                offset: Offset(0, 4),
+                blurRadius: 6,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               //crossAxisAlignment: CrossAxisAlignment.end,
@@ -211,12 +273,8 @@ class BicyWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.deepOrange,
                   borderRadius: BorderRadius.circular(4)),
-              child: Text(
-                (bicy.statusBicy == '0')
-                    ? 'Ocupado'
-                    : (bicy.statusBicy == '2')
-                        ? 'Solicitado'
-                        : 'Libre',
+                  child: Text( bicy.statusBicy == '0' ? "Ocupado" : (bicy.statusBicy == '1' ? "Libre" : ( bicy.statusBicy == '2' ? "Solicitado" : "Inactivo")),
+                // (bicy.statusBicy == '0') ? 'Ocupado' : (bicy.statusBicy == '2') ? 'Solicitado' : 'Libre' : (bicy.statusBicy == '3') ? 'Disponible' : 'Inactivo',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,

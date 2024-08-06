@@ -1,19 +1,27 @@
 //
+// ignore_for_file: must_be_immutable
+
 import 'package:app_bicirrenta/infrastructure/models/tipe_bicy_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'admin_bicy_controller.dart';
 
-class Bicicletas extends StatelessWidget {
-  final AdminBicyController controller = Get.put(AdminBicyController());
+class Bicicletas extends StatefulWidget {
+  @override
+  State<Bicicletas> createState() => _BicicletasState();
+}
 
+class _BicicletasState extends State<Bicicletas> {  
+  final AdminBicyController controller = Get.put(AdminBicyController());
+  SingingCharacter? _character = SingingCharacter.Activo;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Registro",
+          "Registro de bicicletas",
           style: const TextStyle(fontSize: 20, color: Color(0xFFFFFFFF)),
         ),
         actions: [
@@ -42,8 +50,6 @@ class Bicicletas extends StatelessWidget {
 
             Container(
                 width: double.infinity,
-                //la altura
-                //height: 450,
                 padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
@@ -55,37 +61,14 @@ class Bicicletas extends StatelessWidget {
                           blurRadius: 15,
                           offset: Offset(0, 5))
                     ]),
+
                 child: Column(children: [
                   SizedBox(height: 10),
                   //Text Nombre Completo
+
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      //Text Nombre Completo
-                      // TextField(
-                      //   controller: controller.nameBicyController,
-                      //   decoration: InputDecoration(
-                      //     //label: Text('Nombre Completo'),
-                      //     labelText: 'Nombre Bicicleta',
-                      //     hintText: 'Ingrese el nombre',
-                      //     icon: Icon(
-                      //       Icons.directions_bike,
-                      //       size: 40,
-                      //     ),
-                      //     hintStyle: TextStyle(
-                      //         color: Color.fromARGB(164, 3, 3, 4)),
-                      //   ),
-                      //   maxLines: 1,
-                      //   textCapitalization:
-                      //       TextCapitalization.words,
-                      //   obscureText: false,
-                      //   textDirection: TextDirection.ltr,
-                      //   autocorrect: true,
-                      //   enableSuggestions: true,
-                      // ),
-
-                      // const SizedBox(height: 10),
-
                       Align(
                         alignment: Alignment.topLeft,
                         child: Row(
@@ -101,95 +84,31 @@ class Bicicletas extends StatelessWidget {
                       FutureBuilder<List<TypeBicyModel>>(
                           future: controller.getTypes(),
                           builder: (c, snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) {
+                            if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                               if (snapshot.data!.isEmpty) {
                                 return Text('Sin datos para Tipo Bicicleta');
                               }
-
                               return Container(
-                                padding: EdgeInsets.only(
-                                    left:
-                                        50), // Ajusta el margen izquierdo según tus necesidades
+                                padding: EdgeInsets.only(left: 50), // Ajusta el margen izquierdo según tus necesidades
                                 child: DropdownButtonFormField<TypeBicyModel>(
-                                  items: snapshot.data!
-                                      .map(
+                                  items: snapshot.data!.map(
                                         (e) => DropdownMenuItem<TypeBicyModel>(
                                           value: e,
-                                          child: Text(e.nameTypeBicy!),
+                                          child: Text(e.nameTypeBicy ?? 'Sin Nombre'),
                                         ),
-                                      )
-                                      .toList(),
+                                      ).toList(),
                                   value: controller.typeSelected.value,
                                   onChanged: (val) {
                                     controller.typeSelected.value = val!;
                                   },
                                 ),
                               );
-                            } else if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasError) {
+                            } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasError) {
                               return Text('Error al cargar Datos');
                             } else {
                               return SizedBox();
                             }
-                          }),
-
-                      //ComboBox
-                      //const SizedBox(height: 20),
-
-                      // Align(
-                      //   alignment: Alignment.topLeft,
-                      //   child: Row(
-                      //     children: [
-                      //       Icon(Icons.image,
-                      //           size: 40,
-                      //           color:
-                      //               Color.fromARGB(164, 3, 3, 4)),
-                      //       SizedBox(width: 10),
-                      //       ElevatedButton(
-                      //         onPressed: () {},
-                      //         style: ElevatedButton.styleFrom(
-                      //             minimumSize: const Size(200, 40),
-                      //             backgroundColor: Color.fromARGB(
-                      //                 255, 12, 232, 166),
-                      //             shape: RoundedRectangleBorder(
-                      //                 borderRadius:
-                      //                     BorderRadius.circular(
-                      //                         10))),
-                      //         child: Text('Selecciona una imagen',
-                      //             style: TextStyle(
-                      //                 color: Color.fromARGB(
-                      //                     255, 255, 255, 255),
-                      //                 fontSize: 20)),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
-                      // SizedBox(height: 20),
-
-                      // Container(
-                      //   width:
-                      //       200, // Puedes ajustar el ancho según tus necesidades
-                      //   height: 200, // Mantén el mismo alto
-                      //   decoration: BoxDecoration(
-                      //     shape: BoxShape.circle,
-                      //     color: Color.fromARGB(160, 24, 140, 176),
-                      //   ),
-                      //   child: _image == null
-                      //       ? Center(child: Text('No hay imagen'))
-                      //       : ClipOval(
-                      //           child: Image.file(
-                      //             _image!,
-                      //             fit: BoxFit
-                      //                 .cover, // Ajusta la imagen para que cubra completamente el círculo
-                      //           ),
-                      //         ),
-                      // ),
-
-                      // const SizedBox(height: 20),
+                        }),
 
                       SizedBox(height: 35),
 
@@ -244,22 +163,94 @@ class Bicicletas extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 30),
+                      
+                      // RadioListTile<SingingCharacter>(
+                      //       title: const Text('Activo'),
+                      //       value: SingingCharacter.Activo,
+                      //       groupValue: _character,
+                      //       onChanged: (SingingCharacter? value) {
+                      //         setState(() {
+                      //           _character = value;
+                      //         });
+                      //       },
+                      //     ),                    
 
+
+                      //     RadioListTile<SingingCharacter>(
+                      //       title: const Text('Inactivo'),
+                      //       value: SingingCharacter.Inactivo,
+                      //       groupValue: _character,
+                      //       onChanged: (SingingCharacter? value) {
+                      //         setState(() {
+                      //           _character = value;
+                      //         });
+                      //       },
+                      //     ),
+                          
                       //Boton Guardar Registro
+                      const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
-                          controller.saveBicy(context);
+                          void showConfirmationDialog(BuildContext context, VoidCallback onConfirmed) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    '¿Estás seguro de ${controller.IdBicicletaselect.value != 0 ? 'actualizar' : 'guardar'} la bicicleta?',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("No"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        onConfirmed();
+                                      },
+                                      child: Text("Sí"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+
+                          if (controller.IdBicicletaselect.value != 0) {
+                            showConfirmationDialog(context, () {
+                              controller.updateBicy(
+                                controller.IdBicicletaselect.value,
+                                int.parse(controller.typeSelected.value!.idTypeBicy!),
+                                controller.infoBicyController.text.trim(),
+                                controller.priceBicyController.text.trim(),
+                              );
+                            });
+                          } else {
+                            showConfirmationDialog(context, () {
+                              controller.saveBicy(context);
+                            });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(300, 40),
-                            backgroundColor: const Color(0xFF35AF86),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: const Text('Guardar',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: 20)),
-                      ),
+                          minimumSize: const Size(300, 40),
+                          backgroundColor: const Color(0xFF35AF86),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'Guardar',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),                     
 
                       const SizedBox(height: 10),
 
@@ -290,4 +281,8 @@ class Bicicletas extends StatelessWidget {
       ),
     );
   }
-}
+} 
+
+
+
+enum SingingCharacter { Activo, Inactivo}
